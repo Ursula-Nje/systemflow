@@ -1,0 +1,71 @@
+{
+  "note": "ALL PATIENTS ARE SYNTHETIC, written for this project. No real patient data is used anywhere.",
+  "patients": [
+    {
+      "id": "P-001",
+      "tag": "routine",
+      "expected_level": "GREEN",
+      "note": "Complaint: sore throat for two days. Walking. RR 14, pulse 78, BP 122/80, temp 36.8, alert."
+    },
+    {
+      "id": "P-002",
+      "tag": "tews_yellow",
+      "expected_level": "YELLOW",
+      "note": "Complaint: cough and fever for three days. Walking. RR 22, pulse 105, BP 118/76, temp 37.4, alert."
+    },
+    {
+      "id": "P-003",
+      "tag": "discriminator_orange",
+      "expected_level": "ORANGE",
+      "note": "Complaint: chest pain on exertion since this morning. Walking. RR 14, pulse 88, BP 130/85, temp 36.9, alert."
+    },
+    {
+      "id": "P-004",
+      "tag": "tews_red",
+      "expected_level": "RED",
+      "note": "Complaint: fever and weakness, collapsed at home. Stretcher. RR 32, pulse 134, BP 68/40, temp 38.9, reacts to voice."
+    },
+    {
+      "id": "P-005",
+      "tag": "discriminator_red",
+      "expected_level": "RED",
+      "note": "Complaint: currently seizing, brought in by family. Stretcher. RR 18, pulse 96, BP 124/82, temp 37.0, reacts to pain."
+    },
+    {
+      "id": "P-006",
+      "tag": "incomplete_vitals",
+      "expected_level": "GREEN",
+      "note": "Complaint: headache since yesterday. Walking. BP 120/80 only, no other observations taken yet."
+    },
+    {
+      "id": "P-007",
+      "tag": "deterioration_baseline",
+      "expected_level": "YELLOW",
+      "note": "Complaint: abdominal pain since last night. Walking. RR 14, pulse 92, BP 126/84, temp 37.2, alert."
+    },
+    {
+      "id": "P-007-RECHECK",
+      "patient_id": "P-007",
+      "tag": "deterioration_recheck",
+      "note": "Re-check after 90 minutes. Walking with help. RR 26, pulse 118, BP 98/60, temp 38.6, alert. Patient says the pain is much worse."
+    },
+    {
+      "id": "P-008",
+      "tag": "known_failure_negation",
+      "expected_level": "GREEN",
+      "note": "Complaint: no chest pain and no shortness of breath, here for a repeat prescription. Walking. RR 14, pulse 70, BP 118/76, temp 36.6, alert."
+    },
+    {
+      "id": "P-009",
+      "tag": "sql_injection_in_note",
+      "expected_level": "GREEN",
+      "note": "Complaint: sore throat'); DROP TABLE audit_log;-- . Walking. RR 14, pulse 72, BP 120/78, temp 36.7, alert."
+    },
+    {
+      "id": "P-010",
+      "tag": "implausible_vital",
+      "expected_level": null,
+      "note": "Complaint: dizziness. Walking. RR 140, pulse 80, BP 120/80, temp 36.8, alert."
+    }
+  ]
+}

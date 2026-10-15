@@ -1,0 +1,47 @@
+digraph Systemflow {
+  rankdir=TB; newrank=true; splines=ortho;
+  graph [fontname="Helvetica", fontsize=15, pad=0.4, nodesep=0.5, ranksep=0.65, bgcolor="white", labelloc=t,
+         label="Systemflow: nurse-supervised agentic triage\nAll components run locally. Patient data never leaves the machine. External APIs: none.\n "];
+  node  [fontname="Helvetica", fontsize=13, shape=box, style="rounded,filled", fillcolor="#F4F6F8", color="#5B6770", margin="0.18,0.12"];
+  edge  [fontname="Helvetica", fontsize=11, color="#3B4852"];
+
+  nurse [label="TRIAGE NURSE\ntypes a free-text note of vitals + complaint", fillcolor="#FFE9C7", color="#B26A00"];
+
+  subgraph cluster_agent {
+    label="AGENT  (LangGraph, open source)"; style="rounded,dashed"; color="#2E6F95"; fontcolor="#2E6F95"; fontsize=14;
+    intake [label="1  intake\nread queue,\nlog the note"];
+    plan   [label="2  plan + tool calls\nmodel chooses tool,\nextracts values, retries on error"];
+    verify [label="3  verify (code)\nevery number must appear\nin the note, else BLOCK"];
+    gate   [label="4  HUMAN-IN-THE-LOOP GATE\ngraph pauses; a named clinician\napproves or rejects", fillcolor="#FFE9C7", color="#B26A00", penwidth=2.5];
+    commit [label="5  commit\ncalls submit_to_queue"];
+    {rank=same; intake; plan; verify; gate; commit;}
+    intake -> plan -> verify -> gate -> commit;
+  }
+
+  llm    [label="LLM: open-weights Qwen\nvia Ollama, running locally\nchooses tools, extracts values only", fillcolor="#E4F1E4", color="#3C763D"];
+  client [label="MCP CLIENT\nPython SDK over stdio", fillcolor="#E6E9F5", color="#4A56A6"];
+
+  triage [shape=record, fillcolor="#E6E9F5", color="#4A56A6",
+          label="{MCP SERVER: triage-desk  (BUILT by us)|tools: score_priority, flag_recheck (write pending proposals)\lsubmit_to_queue (GATED: refuses without approval)\lget_queue (read-only)\lresource: triage://sats/rules\l}"];
+  sqlite [shape=record, fillcolor="#E6E9F5", color="#4A56A6",
+          label="{MCP SERVER: mcp-server-sqlite  (BORROWED, official)|tools: write_query, read_query\lused for the audit log\l}"];
+
+  sats    [label="SATS scoring tables\n(sats.py)", shape=note];
+  queuedb [label="systemflow.db\nproposals, approvals, queue", shape=cylinder, fillcolor="#FFFFFF"];
+  auditdb [label="audit_log\ninputs, outputs, timestamps,\nnamed clinician", shape=cylinder, fillcolor="#FFFFFF"];
+  roster  [label="Clinician roster\n(who may approve)", shape=note];
+  synth   [label="Synthetic patients\n(no real data)", shape=note];
+
+  nurse -> intake [label="  note"];
+  plan -> llm [dir=both, label="  prompt / tool calls"];
+  plan -> client [label="  tool calls"];
+  commit -> client [label="  submit_to_queue"];
+  client -> triage [label="  stdio"];
+  client -> sqlite [label="  every call logged"];
+  triage -> sats [label="  scores with"];
+  triage -> queuedb [label="  proposals,\n  queue"];
+  sqlite -> auditdb;
+  roster -> gate [style=dashed, label="  validates approver"];
+  synth -> nurse [style=dotted, label="  demo notes"];
+  gate -> nurse [color="#B26A00", fontcolor="#B26A00", xlabel="shows level + cited vitals; nurse decides  ", constraint=false];
+}

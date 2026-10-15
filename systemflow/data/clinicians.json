@@ -1,0 +1,8 @@
+{
+  "note": "Fictional roster for the demo. Replace with your facility's real staff list.",
+  "clinicians": [
+    {"name": "Nurse Amina Otieno", "role": "triage nurse"},
+    {"name": "Nurse Peter Kamau", "role": "triage nurse"},
+    {"name": "Dr Grace Mwangi", "role": "clinician"}
+  ]
+}
