@@ -23,3 +23,6 @@ venv/
 *.sqlite
 *.sqlite3
 __pycache__/
+
+# SQLite checkpoint files
+*.db.*
