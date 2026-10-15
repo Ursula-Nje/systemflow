@@ -10,3 +10,9 @@ venv/
 *.db-*
 *.sqlite
 *.sqlite3
+
+# Ignore SQLite database files and checkpoints
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
