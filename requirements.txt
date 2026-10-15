@@ -1,0 +1,7 @@
+mcp>=1.9,<2
+mcp-server-sqlite
+langgraph>=1.0
+langgraph-checkpoint-sqlite
+aiosqlite
+openai>=1.0
+pytest
